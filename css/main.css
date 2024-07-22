@@ -1,0 +1,61 @@
+body {
+    background-color: black;
+}
+
+@media (min-width : 390px) and (min-height : 844px) {
+    .header-container {
+        border-bottom : 1px solid gray;
+        margin-bottom :-25px;
+        height: 30px;
+    }
+    
+    .header-MainText {
+        color: white;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 3px;
+        margin-top: -5px;
+        width: 75%;
+        transform: translate(15%, 0);
+    }
+    
+    .main-container {
+        background-color: blue;
+        margin: 10px;
+        padding: 5px;
+        transform: translate(0%, 35%);
+    }
+    
+    .Menu-containar {
+        background-color: green;
+        display: flex;
+        justify-content: start;
+        transform: translate(30%, -100%);
+
+    }
+
+    .footer-container {
+        background-color: green;
+        margin: 10px;
+        padding: 5px;
+        transform: translate(0, 50%);
+    }
+
+    .Search-container {
+        display: flex;
+        justify-content: end;
+    }
+
+    .Search-InputContainer {
+        transform: translate(-42%, 0%);
+        width: 40%;
+    }
+
+    .Select-container {
+        transform: translate(-75%, 0%);
+    }
+
+    .Genre {
+        height: 28px;
+    }
+}
