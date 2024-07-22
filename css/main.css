@@ -3,11 +3,21 @@ body {
 }
 
 @media (min-width : 390px) and (min-height : 844px) {
+
     .header-container {
-        border-bottom : 1px solid gray;
-        margin-bottom :-25px;
-        height: 30px;
+        margin-bottom: -25px;
+        height: 80px;
+        width: 390px;
+        position: fixed;
+        background-color: black;
+        z-index: 1002;
+        left: 50%;
+        transform: translate(-50%, -12%);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
+    
     
     .header-MainText {
         color: white;
@@ -16,39 +26,32 @@ body {
         margin-bottom: 3px;
         margin-top: -5px;
         width: 75%;
-        transform: translate(15%, 0);
+        transform: translate(0%, 0)
     }
     
     .main-container {
-        background-color: blue;
         margin: 10px;
         padding: 5px;
-        transform: translate(0%, 35%);
+        transform: translate(0%, 0.1%);
     }
     
     .Menu-containar {
         color: white;
         display: flex;
         justify-content: start;
-        transform: translate(0%, -150%);
-
-    }
-
-    .footer-container {
-        background-color: green;
-        margin: 10px;
-        padding: 5px;
-        transform: translate(0, 50%);
+        transform: translate(-315px, -32%);
     }
 
     .Search-container {
         display: flex;
         justify-content: end;
+        transform: translate(3%, 95%);
+        position: fixed;
     }
 
     .Search-InputContainer {
-        transform: translate(-42%, 0%);
-        width: 40%;
+        transform: translate(-72%, 0%);
+        width: 35%;
     }
 
     .Select-container {
@@ -57,5 +60,26 @@ body {
 
     .Genre {
         height: 28px;
+        transform: translate(-21%, 0);
+    }
+
+    .movie-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .movie {
+        max-width: 150px;
+        min-height: 225px;
+        margin: 10px;
+        color: white;
+        text-align: center;
+        transform: translate(0, 23%);
+    }
+
+    .movie img {
+        max-width: 150px;
+        min-height: 225px;
+        height: auto;
     }
 }

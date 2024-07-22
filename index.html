@@ -33,43 +33,37 @@
             <div class = "Menu-containar">
                  <i class="fas fa-bars"></i>
             </div>
+
+            <div class = "Search-container">
+
+                <div class="Select-container">
+                    <select id="Genre" class="Genre">
+                        <option value="Def">장르 선택</option>
+                        <option value="Action">액션</option>
+                        <option value="Reasoning">추리</option>
+                        <option value="Drama">드라마</option>
+                        <option value="Fantasy">판타지</option>
+                        <option value="Animated-Movie">애니메이션</option>
+                    </select>
+                </div>
+    
+                <div class="Search-InputContainer">
+                    <input id = "searchInput" type = "text" placeholder = "영화 입력해주세요."> 
+                </div>
+    
+                <div class = "Check-container">
+                    <button class = "CheakBtn" id = "checkBtn">확인</button>
+                </div>    
+            </div>
         </div>
     </header>
 
     <div class = "main-container">
-        <div class = "Search-container">
-
-            <div class="Select-container">
-                <select id="Genre" class="Genre">
-                    <option value="Def">장르 선택</option>
-                    <option value="Action">액션</option>
-                    <option value="Reasoning">추리</option>
-                    <option value="Drama">드라마</option>
-                    <option value="Fantasy">판타지</option>
-                    <option value="Animated-Movie">애니메이션</option>
-                </select>
-            </div>
-
-            <div class="Search-InputContainer"">
-                <input type = "text" placeholder = "영화 입력해주세요."> 
-            </div>
-
-            <div class = "Check-container">
-                <button class = "CheakBtn">확인</button>
-            </div>    
-        </div>
-        
         <div class = "movie-container" id = "movie-container">
             <p>영화 검색 결과 공간입니다.</p>
         </div>
     </div>
-
-    <footer>
-        <div class = "footer-container">
-            <p>푸터 에리어 영역입니다.</p>
-        </div>
-    </footer>
-
+    <script src="./src/search.js"></script>
 </body>
 
 </html>
