@@ -110,7 +110,9 @@ const fetchDefaultMovies = async () => {
 const displayMovies = (movies) => {
     try {
         const movieContainer = document.getElementById('movie-container');
+        const movieDetailsContainer = document.getElementById('movie-details-container');
         movieContainer.innerHTML = '';
+        movieDetailsContainer.innerHTML = '';
 
         if (movies.length === 0) {
             movieContainer.innerHTML = '<p>검색 결과가 없습니다.</p>';
@@ -125,8 +127,9 @@ const displayMovies = (movies) => {
                 <h5>${movie.title}</h5>
             `;
             movieElement.addEventListener('click', () => {
-                alert(`영화 ID: ${movie.id}`);
+                displayMovieDetails(movie);
             });
+            
             return movieElement;
         });
 
@@ -137,10 +140,18 @@ const displayMovies = (movies) => {
     }
 }
 
-// DOM이 로드된 후 기본 영화를 가져옴
+const displayMovieDetails = (movie) => {
+    const movieDetailsContainer = document.getElementById('movie-details-container');
+    movieDetailsContainer.innerHTML = `
+        <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
+        <h1>${movie.title}</h1>
+        <p>${movie.overview}</p>
+    `;
+    movieDetailsContainer.style.display = 'block';
+}
+
 document.addEventListener('DOMContentLoaded', fetchDefaultMovies);
 
-// 검색 버튼 클릭 시 영화 데이터를 가져옴
 document.getElementById('checkBtn').addEventListener('click', function(event) {
     event.preventDefault();
     fetchMovies();
