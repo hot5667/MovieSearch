@@ -68,63 +68,13 @@
             </button>
             <div id="comments-section">
                 <input type="text" id="comment-input" placeholder="댓글을 입력하세요">
-                <button id="submit-comment">댓글 작성</button>
-                <div id="comments-list"></div>
+                <button id="submit-comment">댓글 작성</button>                
             </div>
         </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
-
-    <script>
-        // Firebase 설정
-        const firebaseConfig = {
-            apiKey: "AIzaSyBO3lWt_7hGIHZ9XOBxvig_B5He7uMPzvk",
-            authDomain: "moviesearch-84a30.firebaseapp.com",
-            projectId: "moviesearch-84a30",
-            storageBucket: "moviesearch-84a30.appspot.com",
-            messagingSenderId: "418577105323",
-            appId: "1:418577105323:web:7cf31a9c378b5a5c3352ee",
-            measurementId: "G-GNKHK48Q16"
-        };
-
-        // Firebase 초기화
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        // FirestoreDatabase 클래스 정의 및 인스턴스 생성
-        class DatabaseInterface {
-            async get(cacheKey) {
-                throw new Error('get 메서드는 반드시 구현되어야 합니다.');
-            }
-
-            async set(cacheKey, data) {
-                throw new Error('set 메서드는 반드시 구현되어야 합니다.');
-            }
-        }
-
-        class FirestoreDatabase extends DatabaseInterface {
-            constructor(db) {
-                super();
-                this.db = db;
-            }
-
-            async get(cacheKey) {
-                const cacheDocRef = this.db.collection("movieCache").doc(cacheKey);
-                const cacheDoc = await cacheDocRef.get();
-                return cacheDoc.exists ? cacheDoc.data().results : null;
-            }
-
-            async set(cacheKey, data) {
-                const cacheDocRef = this.db.collection("movieCache").doc(cacheKey);
-                await cacheDocRef.set({ results: data });
-            }
-        }
-
-        const database = new FirestoreDatabase(db);
-    </script>
-
     <script src="../src/search.js"></script>
 </body>
 

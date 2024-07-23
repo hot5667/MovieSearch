@@ -83,6 +83,11 @@ body {
         height: auto;
     }
 
+    .movie-details-container {
+        height: 860px;
+    }
+
+
     .movie-details-container img{
         max-width: 150px;
         min-height: 225px;
@@ -92,5 +97,46 @@ body {
     .movie-details-container p{
        color: white;
        transform: translate(0px, 35%);
+    }
+
+    .like-button {
+        transform: translate(160px, -240px);
+    }
+
+    .like-button span {
+        padding: 5px;
+    }
+
+ 
+    .comments-list {
+        max-height: 200px; 
+        overflow-y: auto; 
+        background: rgba(0, 0, 0, 0.8); 
+        padding: 10px; 
+        box-sizing: border-box; 
+        color: white; 
+    }
+
+
+    .comments-list div {
+        margin-bottom: 10px; 
+    }
+
+    .comment-container {
+        transform: translate(0, 10px);
+        display: flex; 
+        align-items: center; 
+        padding: 10px; 
+        box-sizing: border-box; 
+    }   
+
+    .comment-container input {
+        flex: 1; 
+        margin-right: 10px; 
+        padding: 5px; 
+    }
+
+    .comment-container button {
+        padding: 5px 10px; 
     }
 }
