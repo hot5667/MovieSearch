@@ -1,5 +1,5 @@
 const AniKey = "1655a0bd29b81ef90c6464559ef670c3";
-const Token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNjU1YTBiZDI5YjgxZWY5MGM2NDY0NTU5ZWY2NzBjMyIsIm5iZiI6MTcyMTY2NDgyMy42NTg5MTcsInN1YiI6IjY2OWU4NDQxMmJiNDcyOWEzNWQxNzUyNCIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.OwsIxUsO19XWLUXui0JSBIQFVEiUFP4clxeq1uSeLZw";
+const Token = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxNjU1YTBiZDI5YjgxZWY5MGM2NDY0NTU5ZWY2NzBjMyIsIm5iIjoxNzIxNjY0ODIzLjY1ODkxNywic3ViIjoiNjY5ZTg0NDEyYmI0NzI5YTM1ZDE3NTI0Iiwic2NvcGVzIjpbImFwaV9yZWFkIl0sInZlcnNpb24iOjF9.OwsIxUsO19XWLUXui0JSBIQFVEiUFP4clxeq1uSeLZw";
 
 const genreMap = {
     "Action": 28,
@@ -127,7 +127,7 @@ const displayMovies = (movies) => {
                 <h5>${movie.title}</h5>
             `;
             movieElement.addEventListener('click', () => {
-                displayMovieDetails(movie);
+                fetchMovieDetails(movie.id);
             });
             
             return movieElement;
@@ -140,11 +140,40 @@ const displayMovies = (movies) => {
     }
 }
 
+const fetchMovieDetails = async (movieId) => {
+    try {
+        const url = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${AniKey}&language=ko-KR`;
+
+        const response = await fetch(url, {
+            headers: {
+                'Authorization': 'Bearer ' + Token
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('네트워크 응답이 정상적이지 않습니다: ' + response.statusText);
+        }
+
+        const movie = await response.json();
+        console.log('가져온 영화 상세 데이터:', movie);
+
+        displayMovieDetails(movie);
+    } catch (error) {
+        console.error('영화 상세 정보를 가져오는 중 오류 발생:', error);
+        alert('영화 상세 정보를 가져오는 중 오류가 발생했습니다.');
+    }
+}
+
 const displayMovieDetails = (movie) => {
+    const movieContainer = document.getElementById('movie-container');
     const movieDetailsContainer = document.getElementById('movie-details-container');
+    
+    // 영화 목록 숨기기
+    movieContainer.style.display = 'none';
+
+    // 상세 페이지 표시
     movieDetailsContainer.innerHTML = `
         <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
-        <h1>${movie.title}</h1>
         <p>${movie.overview}</p>
     `;
     movieDetailsContainer.style.display = 'block';

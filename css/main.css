@@ -82,4 +82,15 @@ body {
         min-height: 225px;
         height: auto;
     }
+
+    .movie-details-container img{
+        max-width: 150px;
+        min-height: 225px;
+        transform: translate(0px, 40%);
+    }
+
+    .movie-details-container p{
+       color: white;
+       transform: translate(0px, 35%);
+    }
 }
