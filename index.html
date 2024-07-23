@@ -3,10 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel = "stylesheet" href = "../css/main.css">
+    <link rel="stylesheet" href="../css/main.css">
 
     <style>
         @font-face {
@@ -17,7 +17,7 @@
         }
 
         * {
-            font-family: 'yg-jalnan',sans-serif
+            font-family: 'yg-jalnan', sans-serif;
         }
     </style>
     <title>MovieSearch</title>
@@ -26,16 +26,12 @@
 <body>
 
     <header>
-        <div class = "header-container">
-            <h4 class = "header-MainText">
-                DoSearch
-            </h4>
-            <div class = "Menu-containar">
-                 <i class="fas fa-bars"></i>
+        <div class="header-container">
+            <h4 class="header-MainText">DoSearch</h4>
+            <div class="Menu-containar">
+                <i class="fas fa-bars"></i>
             </div>
-
-            <div class = "Search-container">
-
+            <div class="Search-container">
                 <div class="Select-container">
                     <select id="Genre" class="Genre">
                         <option value="Def">장르 선택</option>
@@ -46,24 +42,76 @@
                         <option value="Animated-Movie">애니메이션</option>
                     </select>
                 </div>
-    
                 <div class="Search-InputContainer">
-                    <input id = "searchInput" type = "text" placeholder = "영화 입력해주세요."> 
+                    <input id="searchInput" type="text" placeholder="영화를 입력해주세요.">
                 </div>
-    
-                <div class = "Check-container">
-                    <button class = "CheakBtn" id = "checkBtn">확인</button>
-                </div>    
+                <div class="Check-container">
+                    <button class="CheakBtn" id="checkBtn">확인</button>
+                </div>
             </div>
         </div>
     </header>
 
-    <div class = "main-container">
-        <div class = "movie-container" id = "movie-container">
+    <div class="main-container">
+        <div class="movie-container" id="movie-container">
             <p>영화 검색 결과 공간입니다.</p>
         </div>
     </div>
-    <script src="./src/search.js"></script>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+
+    <!-- Firebase 초기화 -->
+    <script>
+        // Firebase 설정
+        const firebaseConfig = {
+            apiKey: "AIzaSyBO3lWt_7hGIHZ9XOBxvig_B5He7uMPzvk",
+            authDomain: "moviesearch-84a30.firebaseapp.com",
+            projectId: "moviesearch-84a30",
+            storageBucket: "moviesearch-84a30.appspot.com",
+            messagingSenderId: "418577105323",
+            appId: "1:418577105323:web:7cf31a9c378b5a5c3352ee",
+            measurementId: "G-GNKHK48Q16"
+        };
+
+        // Firebase 초기화
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // FirestoreDatabase 클래스 정의 및 인스턴스 생성
+        class DatabaseInterface {
+            async get(cacheKey) {
+                throw new Error('get 메서드는 반드시 구현되어야 합니다.');
+            }
+
+            async set(cacheKey, data) {
+                throw new Error('set 메서드는 반드시 구현되어야 합니다.');
+            }
+        }
+
+        class FirestoreDatabase extends DatabaseInterface {
+            constructor(db) {
+                super();
+                this.db = db;
+            }
+
+            async get(cacheKey) {
+                const cacheDocRef = this.db.collection("movieCache").doc(cacheKey);
+                const cacheDoc = await cacheDocRef.get();
+                return cacheDoc.exists ? cacheDoc.data().results : null;
+            }
+
+            async set(cacheKey, data) {
+                const cacheDocRef = this.db.collection("movieCache").doc(cacheKey);
+                await cacheDocRef.set({ results: data });
+            }
+        }
+
+        const database = new FirestoreDatabase(db);
+    </script>
+
+    <script src="../src/search.js"></script>
 </body>
 
 </html>
