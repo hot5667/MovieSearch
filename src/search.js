@@ -8,7 +8,6 @@ const firebaseConfig = {
     measurementId: "G-GNKHK48Q16"
 };
 
-// Firebase 초기화
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
@@ -186,18 +185,18 @@ const displayMovieDetails = (movie) => {
             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
             <p>${movie.overview}</p>
             <div class="average-rating" id="average-rating">평균 별점: 로딩 중...</div>
-            <div class="rating">
-                <input type="radio" id="star10" name="rating" value="5.0" class="rating__input"><label for="star10" class="rating__label"><span class="star-icon"></span></label>
-                <input type="radio" id="star9" name="rating" value="4.5" class="rating__input"><label for="star9" class="rating__label"><span class="star-icon"></span></label>
-                <input type="radio" id="star8" name="rating" value="4.0" class="rating__input"><label for="star8" class="rating__label"><span class="star-icon"></span></label>
-                <input type="radio" id="star7" name="rating" value="3.5" class="rating__input"><label for="star7" class="rating__label"><span class="star-icon"></span></label>
-                <input type="radio" id="star6" name="rating" value="3.0" class="rating__input"><label for="star6" class="rating__label"><span class="star-icon"></span></label>
-                <input type="radio" id="star5" name="rating" value="2.5" class="rating__input"><label for="star5" class="rating__label"><span class="star-icon"></span></label>
-                <input type="radio" id="star4" name="rating" value="2.0" class="rating__input"><label for="star4" class="rating__label"><span class="star-icon"></span></label>
-                <input type="radio" id="star3" name="rating" value="1.5" class="rating__input"><label for="star3" class="rating__label"><span class="star-icon"></span></label>
-                <input type="radio" id="star2" name="rating" value="1.0" class="rating__input"><label for="star2" class="rating__label"><span class="star-icon"></span></label>
-                <input type="radio" id="star1" name="rating" value="0.5" class="rating__input"><label for="star1" class="rating__label"><span class="star-icon"></span></label>
-            </div>
+            <fieldset class="rateing">
+                <input type="radio" id="rating10" name="rate" value="10"><label for="rating10" title="5점"></label>
+                <input type="radio" id="rating9" name="rate" value="9"><label class="half" for="rating9" title="4.5점"></label>
+                <input type="radio" id="rating8" name="rate" value="8"><label for="rating8" title="4점"></label>
+                <input type="radio" id="rating7" name="rate" value="7"><label class="half" for="rating7" title="3.5점"></label>
+                <input type="radio" id="rating6" name="rate" value="6"><label for="rating6" title="3점"></label>
+                <input type="radio" id="rating5" name="rate" value="5"><label class="half" for="rating5" title="2.5점"></label>
+                <input type="radio" id="rating4" name="rate" value="4"><label for="rating4" title="2점"></label>
+                <input type="radio" id="rating3" name="rate" value="3"><label class="half" for="rating3" title="1.5점"></label>
+                <input type="radio" id="rating2" name="rate" value="2"><label for="rating2" title="1점"></label>
+                <input type="radio" id="rating1" name="rate" value="1"><label class="half" for="rating1" title="0.5점"></label>
+             </fieldset>
             <button class="like-button" id="like-button" data-movie-id="${movie.id}"><i class="fas fa-heart" style="color: red";></i> 좋아요 <span id="like-count">0</span></button>
             <div class="comment-container">
                 <input type="text" id="comment-input" placeholder="댓글을 입력하세요">
@@ -332,113 +331,6 @@ const fetchMovieRating = async (movieId) => {
         console.error('별점 정보를 가져오는 중 오류 발생:', error);
     }
 };
-
-class StarRating {
-    constructor(movieId) {
-        this.movieId = movieId;
-        this.stars = document.querySelectorAll('.rating-stars .star');
-        this.init();
-    }
-
-    init() {
-        this.setupEventListeners();
-        this.fetchMovieRating();
-    }
-
-    setupEventListeners() {
-        this.stars.forEach(star => {
-            star.addEventListener('mouseover', () => {
-                const value = parseFloat(star.getAttribute('data-value'));
-                this.highlightStars(value);
-            });
-
-            star.addEventListener('mouseout', () => {
-                this.clearHighlights();
-                this.fetchMovieRating();
-            });
-
-            star.addEventListener('click', () => {
-                const value = parseFloat(star.getAttribute('data-value'));
-                this.setRating(value);
-            });
-        });
-    }
-
-    highlightStars(count) {
-        this.stars.forEach(star => {
-            const value = parseFloat(star.getAttribute('data-value'));
-            if (value <= count) {
-                star.classList.add('selected');
-                star.classList.remove('half');
-            } else if (value === count + 0.5) {
-                star.classList.add('half');
-                star.classList.remove('selected');
-            } else {
-                star.classList.remove('selected');
-                star.classList.remove('half');
-            }
-        });
-    }
-
-    clearHighlights() {
-        this.stars.forEach(star => {
-            star.classList.remove('selected');
-            star.classList.remove('half');
-        });
-    }
-
-    async fetchMovieRating() {
-        try {
-            const movieDocRef = firebase.firestore().collection('movies').doc(this.movieId);
-            const movieDoc = await movieDocRef.get();
-            if (movieDoc.exists) {
-                const data = movieDoc.data();
-                const totalRating = data.totalRating || 0;
-                const ratingCount = data.ratingCount || 0;
-                const averageRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : 0;
-                this.updateStarDisplay(averageRating);
-            } else {
-                this.updateStarDisplay(0);
-            }
-        } catch (error) {
-            console.error('별점 데이터를 가져오는 중 오류 발생:', error);
-        }
-    }
-
-    async setRating(value) {
-        try {
-            const movieDocRef = firebase.firestore().collection('movies').doc(this.movieId);
-            const movieDoc = await movieDocRef.get();
-
-            if (!movieDoc.exists) {
-                await movieDocRef.set({
-                    totalRating: 0,
-                    ratingCount: 0
-                });
-            }
-
-            await movieDocRef.update({
-                totalRating: firebase.firestore.FieldValue.increment(value),
-                ratingCount: firebase.firestore.FieldValue.increment(1)
-            });
-
-            this.fetchMovieRating();
-        } catch (error) {
-            console.error('별점 저장 중 오류 발생:', error);
-        }
-    }
-
-    updateStarDisplay(averageRating) {
-        this.clearHighlights();
-        this.highlightStars(Math.round(averageRating * 2) / 2);
-    }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-    const movieId = 'YOUR_MOVIE_ID';  // movieId를 실제 값으로 교체
-    new StarRating(movieId);
-});
-
 
 document.getElementById('checkBtn').addEventListener('click', fetchMovies);
 document.addEventListener('DOMContentLoaded', fetchDefaultMovies);

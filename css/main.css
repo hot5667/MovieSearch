@@ -1,3 +1,5 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
 body {
     background-color: black;
 }
@@ -6,51 +8,49 @@ body {
 
     .average-rating {
         max-width: 150px;
-        transform: translate(160px, -240px);
+        transform: translate(160px, -240px);     
         color:white;
     }
 
-    .rating {
-        transform: translate(-10px, -350px);
-        display: flex;
-        justify-content: flex-end;
+    .rateing { 
+        display: inline-block;
+        border: 0;
+        margin-right: 15px;
+        transform: translate(180px, -350px);  
     }
     
-    .rating__input {
+
+    .rateing > input {
         display: none;
     }
-    
-    .rating__label {
-        cursor: pointer;
-        width: 1rem;
-        height: 1rem;
-        background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48"><path fill="gray" d="M25,0 L32,18 H50 L36,30 L42,48 L25,36 L8,48 L14,30 L0,18 H18 Z"/></svg>') no-repeat center center;
-        background-size: contain;
-        position: relative;
+
+    .rateing > label {
+        float: right;
+        color: #ddd;
     }
-    
-    .rating__label::before {
-        content: '';
-        width: 50%;
-        height: 100%;
-        background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48"><path fill="gold" d="M25,0 L32,18 H50 L36,30 L42,48 L25,36 L8,48 L14,30 L0,18 H18 Z"/></svg>') no-repeat center center;
-        background-size: contain;
+
+    .rateing > label:before {
+        display: inline-block;
+        font-size: 1rem;
+        padding: .3rem .2rem;
+        margin: 0;cursor: pointer;
+        font-family: FontAwesome;content: "\f005 ";
+        top: 6.1px;
+    }
+    .rateing .half:before {
+        content: "\f089 "; 
         position: absolute;
-        left: 0;
-        top: 0;
-        overflow: hidden;
+        padding-right: 0;
     }
-    
-    .rating__input:checked ~ .rating__label,
-    .rating__input:checked ~ .rating__label ~ .rating__label {
-        background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48"><path fill="gold" d="M25,0 L32,18 H50 L36,30 L42,48 L25,36 L8,48 L14,30 L0,18 H18 Z"/></svg>') no-repeat center center;
-        background-size: contain;
-    }
-    
-    .rating__label:hover,
-    .rating__label:hover ~ .rating__label {
-        background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48"><path fill="gold" d="M25,0 L32,18 H50 L36,30 L42,48 L25,36 L8,48 L14,30 L0,18 H18 Z"/></svg>') no-repeat center center;
-        background-size: contain;
+    .rateing input:checked ~ label, 
+    .rateing label:hover,.rate label:hover ~ label {
+         color: #f73c32 !important;  
+        } 
+    .rateing input:checked + .rate label:hover,
+    .rateing input input:checked ~ label:hover,
+    .rateing input:checked ~ .rate label:hover ~ label,  
+    .rateing label:hover ~ input:checked ~ label { 
+        color: #f73c32 !important;  
     }
     
     .Genre {
@@ -138,7 +138,7 @@ body {
     }
     
     .like-button {
-        transform: translate(160px, -255px);
+        transform: translate(5px, -255px);
     }
 
     .like-button span {
