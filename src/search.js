@@ -1,4 +1,3 @@
-// Firebase 설정
 const firebaseConfig = {
     apiKey: "AIzaSyBO3lWt_7hGIHZ9XOBxvig_B5He7uMPzvk",
     authDomain: "moviesearch-84a30.firebaseapp.com",
@@ -24,12 +23,11 @@ const genreMap = {
     "Animated-Movie": 16
 };
 
-// 댓글을 화면에 표시하는 함수
 const displayComments = (comments) => {
     const commentsList = document.getElementById('comments-list');
-    commentsList.innerHTML = ''; // 기존 댓글 초기화
+    commentsList.innerHTML = ''; 
 
-    comments.forEach((comment) => {
+    comments.forEach(comment => {
         const commentElement = document.createElement('div');
         commentElement.textContent = comment;
         commentsList.appendChild(commentElement);
@@ -127,7 +125,6 @@ const fetchDefaultMovies = async () => {
         console.log('기본 영화 데이터:', data);
 
         if (data && data.results) {
-            // 데이터에서 처음 20개 영화만 저장
             const moviesToCache = data.results.slice(0, 20);
             await cacheDocRef.set({ movies: moviesToCache });
             displayMovies(moviesToCache);
@@ -155,7 +152,7 @@ const displayMovies = (movies) => {
         const genreElement = document.getElementById('Genre');
         const selectedGenre = genreElement.value;
 
-        movies.forEach((movie) => {
+        movies.forEach(movie => {
             if (selectedGenre === 'Def' || (movie.genre_ids && movie.genre_ids.includes(genreMap[selectedGenre]))) {
                 const movieElement = document.createElement('div');
                 movieElement.classList.add('movie');
@@ -178,7 +175,6 @@ const displayMovies = (movies) => {
     }
 };
 
-
 const displayMovieDetails = (movie) => {
     try {
         const movieContainer = document.getElementById('movie-container');
@@ -190,8 +186,19 @@ const displayMovieDetails = (movie) => {
             <img src="https://image.tmdb.org/t/p/w500${movie.poster_path}" alt="${movie.title}">
             <p>${movie.overview}</p>
             <div class="average-rating" id="average-rating">평균 별점: 로딩 중...</div>
-            <div class="rating-stars"><span></span></div>
-            <button class="like-button" id="like-button">좋아요 <span id="like-count">0</span></button>
+            <div class="rating">
+                <input type="radio" id="star10" name="rating" value="5.0" class="rating__input"><label for="star10" class="rating__label"><span class="star-icon"></span></label>
+                <input type="radio" id="star9" name="rating" value="4.5" class="rating__input"><label for="star9" class="rating__label"><span class="star-icon"></span></label>
+                <input type="radio" id="star8" name="rating" value="4.0" class="rating__input"><label for="star8" class="rating__label"><span class="star-icon"></span></label>
+                <input type="radio" id="star7" name="rating" value="3.5" class="rating__input"><label for="star7" class="rating__label"><span class="star-icon"></span></label>
+                <input type="radio" id="star6" name="rating" value="3.0" class="rating__input"><label for="star6" class="rating__label"><span class="star-icon"></span></label>
+                <input type="radio" id="star5" name="rating" value="2.5" class="rating__input"><label for="star5" class="rating__label"><span class="star-icon"></span></label>
+                <input type="radio" id="star4" name="rating" value="2.0" class="rating__input"><label for="star4" class="rating__label"><span class="star-icon"></span></label>
+                <input type="radio" id="star3" name="rating" value="1.5" class="rating__input"><label for="star3" class="rating__label"><span class="star-icon"></span></label>
+                <input type="radio" id="star2" name="rating" value="1.0" class="rating__input"><label for="star2" class="rating__label"><span class="star-icon"></span></label>
+                <input type="radio" id="star1" name="rating" value="0.5" class="rating__input"><label for="star1" class="rating__label"><span class="star-icon"></span></label>
+            </div>
+            <button class="like-button" id="like-button" data-movie-id="${movie.id}"><i class="fas fa-heart" style="color: red";></i> 좋아요 <span id="like-count">0</span></button>
             <div class="comment-container">
                 <input type="text" id="comment-input" placeholder="댓글을 입력하세요">
                 <button id="submit-comment">댓글 작성</button>
@@ -204,7 +211,6 @@ const displayMovieDetails = (movie) => {
         fetchMovieComments(movie.id, document.getElementById('comments-list'));
 
         document.getElementById('like-button').addEventListener('click', () => saveLike(movie.id));
-
         document.getElementById('submit-comment').addEventListener('click', () => {
             const commentInput = document.getElementById('comment-input');
             const commentText = commentInput.value.trim();
@@ -217,7 +223,6 @@ const displayMovieDetails = (movie) => {
         console.error('영화 세부 정보를 표시하는 중 오류 발생:', error);
     }
 };
-
 
 const fetchMovieLikes = async (movieId, likeCountElement) => {
     try {
@@ -286,23 +291,6 @@ const saveLike = async (movieId) => {
     }
 };
 
-const submitLike = async (movieId) => {
-    try {
-        const likeRef = doc(db, 'movieLikes', movieId.toString());
-        const docSnapshot = await getDoc(likeRef);
-
-        if (!docSnapshot.exists()) {
-            await setDoc(likeRef, { likeCount: 1 });
-        } else {
-            await updateDoc(likeRef, {
-                likeCount: increment(1)
-            });
-        }
-    } catch (error) {
-        console.error('좋아요 제출 중 오류 발생:', error);
-    }
-};
-
 const saveRating = async (movieId, rating) => {
     try {
         const movieDocRef = db.collection('movies').doc(movieId.toString());
@@ -312,19 +300,145 @@ const saveRating = async (movieId, rating) => {
             await movieDocRef.set({
                 likes: 0,
                 comments: [],
-                rating: 0, 
+                totalRating: 0, 
                 ratingCount: 0 
             });
         }
 
         await movieDocRef.update({
-            rating: rating,
+            totalRating: firebase.firestore.FieldValue.increment(rating),
             ratingCount: firebase.firestore.FieldValue.increment(1) 
         });
-    } catch(error) {
+    } catch (error) {
         console.error('별점 저장 중 오류 발생:', error);
     }
+};
+
+const fetchMovieRating = async (movieId) => {
+    try {
+        const movieDocRef = db.collection('movies').doc(movieId.toString());
+        const movieDoc = await movieDocRef.get();
+        if (movieDoc.exists) {
+            const data = movieDoc.data();
+            const totalRating = data.totalRating || 0;
+            const ratingCount = data.ratingCount || 0;
+
+            const averageRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : 0;
+            document.getElementById('average-rating').textContent = `평균 별점: ${averageRating}`;
+        } else {
+            document.getElementById('average-rating').textContent = '평균 별점: 0';
+        }
+    } catch (error) {
+        console.error('별점 정보를 가져오는 중 오류 발생:', error);
+    }
+};
+
+class StarRating {
+    constructor(movieId) {
+        this.movieId = movieId;
+        this.stars = document.querySelectorAll('.rating-stars .star');
+        this.init();
+    }
+
+    init() {
+        this.setupEventListeners();
+        this.fetchMovieRating();
+    }
+
+    setupEventListeners() {
+        this.stars.forEach(star => {
+            star.addEventListener('mouseover', () => {
+                const value = parseFloat(star.getAttribute('data-value'));
+                this.highlightStars(value);
+            });
+
+            star.addEventListener('mouseout', () => {
+                this.clearHighlights();
+                this.fetchMovieRating();
+            });
+
+            star.addEventListener('click', () => {
+                const value = parseFloat(star.getAttribute('data-value'));
+                this.setRating(value);
+            });
+        });
+    }
+
+    highlightStars(count) {
+        this.stars.forEach(star => {
+            const value = parseFloat(star.getAttribute('data-value'));
+            if (value <= count) {
+                star.classList.add('selected');
+                star.classList.remove('half');
+            } else if (value === count + 0.5) {
+                star.classList.add('half');
+                star.classList.remove('selected');
+            } else {
+                star.classList.remove('selected');
+                star.classList.remove('half');
+            }
+        });
+    }
+
+    clearHighlights() {
+        this.stars.forEach(star => {
+            star.classList.remove('selected');
+            star.classList.remove('half');
+        });
+    }
+
+    async fetchMovieRating() {
+        try {
+            const movieDocRef = firebase.firestore().collection('movies').doc(this.movieId);
+            const movieDoc = await movieDocRef.get();
+            if (movieDoc.exists) {
+                const data = movieDoc.data();
+                const totalRating = data.totalRating || 0;
+                const ratingCount = data.ratingCount || 0;
+                const averageRating = ratingCount > 0 ? (totalRating / ratingCount).toFixed(1) : 0;
+                this.updateStarDisplay(averageRating);
+            } else {
+                this.updateStarDisplay(0);
+            }
+        } catch (error) {
+            console.error('별점 데이터를 가져오는 중 오류 발생:', error);
+        }
+    }
+
+    async setRating(value) {
+        try {
+            const movieDocRef = firebase.firestore().collection('movies').doc(this.movieId);
+            const movieDoc = await movieDocRef.get();
+
+            if (!movieDoc.exists) {
+                await movieDocRef.set({
+                    totalRating: 0,
+                    ratingCount: 0
+                });
+            }
+
+            await movieDocRef.update({
+                totalRating: firebase.firestore.FieldValue.increment(value),
+                ratingCount: firebase.firestore.FieldValue.increment(1)
+            });
+
+            this.fetchMovieRating();
+        } catch (error) {
+            console.error('별점 저장 중 오류 발생:', error);
+        }
+    }
+
+    updateStarDisplay(averageRating) {
+        this.clearHighlights();
+        this.highlightStars(Math.round(averageRating * 2) / 2);
+    }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const movieId = 'YOUR_MOVIE_ID';  // movieId를 실제 값으로 교체
+    new StarRating(movieId);
+});
+
 
 document.getElementById('checkBtn').addEventListener('click', fetchMovies);
 document.addEventListener('DOMContentLoaded', fetchDefaultMovies);

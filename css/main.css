@@ -4,6 +4,125 @@ body {
 
 @media (min-width : 390px) and (min-height : 844px) {
 
+    .average-rating {
+        max-width: 150px;
+        transform: translate(160px, -240px);
+        color:white;
+    }
+
+    .rating {
+        transform: translate(-10px, -350px);
+        display: flex;
+        justify-content: flex-end;
+    }
+    
+    .rating__input {
+        display: none;
+    }
+    
+    .rating__label {
+        cursor: pointer;
+        width: 1rem;
+        height: 1rem;
+        background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48"><path fill="gray" d="M25,0 L32,18 H50 L36,30 L42,48 L25,36 L8,48 L14,30 L0,18 H18 Z"/></svg>') no-repeat center center;
+        background-size: contain;
+        position: relative;
+    }
+    
+    .rating__label::before {
+        content: '';
+        width: 50%;
+        height: 100%;
+        background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48"><path fill="gold" d="M25,0 L32,18 H50 L36,30 L42,48 L25,36 L8,48 L14,30 L0,18 H18 Z"/></svg>') no-repeat center center;
+        background-size: contain;
+        position: absolute;
+        left: 0;
+        top: 0;
+        overflow: hidden;
+    }
+    
+    .rating__input:checked ~ .rating__label,
+    .rating__input:checked ~ .rating__label ~ .rating__label {
+        background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48"><path fill="gold" d="M25,0 L32,18 H50 L36,30 L42,48 L25,36 L8,48 L14,30 L0,18 H18 Z"/></svg>') no-repeat center center;
+        background-size: contain;
+    }
+    
+    .rating__label:hover,
+    .rating__label:hover ~ .rating__label {
+        background: url('data:image/svg+xml;charset=UTF-8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 51 48"><path fill="gold" d="M25,0 L32,18 H50 L36,30 L42,48 L25,36 L8,48 L14,30 L0,18 H18 Z"/></svg>') no-repeat center center;
+        background-size: contain;
+    }
+    
+    .Genre {
+        height: 28px;
+        transform: translate(-21%, 0);
+    }
+
+    .Menu-containar {
+        color: white;
+        display: flex;
+        justify-content: start;
+        transform: translate(-315px, -32%);
+    }
+
+    .Search-InputContainer {
+        transform: translate(-72%, 0%);
+        width: 35%;
+    }
+
+    .Search-container {
+        display: flex;
+        justify-content: end;
+        transform: translate(3%, 95%);
+        position: fixed;
+    }
+
+    .Select-container {
+        transform: translate(-75%, 0%);
+    }
+
+    .comment-container {
+        transform: translate(0, -10px);
+        display: flex; 
+        align-items: center; 
+        padding: 10px; 
+        box-sizing: border-box; 
+    }   
+
+    .comment-container button {
+        padding: 5px 10px; 
+    }
+
+    .comment-container input {
+        flex: 1; 
+        margin-right: 10px; 
+        padding: 5px; 
+    }
+
+    .comments-list {
+        max-height: 200px; 
+        overflow-y: auto; 
+        padding: 10px; 
+        box-sizing: border-box; 
+        color: white; 
+        margin-top: 10px; 
+        transform: translate(0, -35px);
+    }
+
+    .comments-list div {
+        margin-bottom: 10px; 
+    }
+
+    .header-MainText {
+        color: white;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 3px;
+        margin-top: -5px;
+        width: 75%;
+        transform: translate(0%, 0);
+    }
+    
     .header-container {
         margin-bottom: -25px;
         height: 80px;
@@ -18,54 +137,18 @@ body {
         align-items: center;
     }
     
-    
-    .header-MainText {
-        color: white;
-        display: flex;
-        justify-content: center;
-        margin-bottom: 3px;
-        margin-top: -5px;
-        width: 75%;
-        transform: translate(0%, 0)
+    .like-button {
+        transform: translate(160px, -255px);
     }
-    
+
+    .like-button span {
+        padding: 5px;
+    }
+
     .main-container {
         margin: 10px;
         padding: 5px;
         transform: translate(0%, 0.1%);
-    }
-    
-    .Menu-containar {
-        color: white;
-        display: flex;
-        justify-content: start;
-        transform: translate(-315px, -32%);
-    }
-
-    .Search-container {
-        display: flex;
-        justify-content: end;
-        transform: translate(3%, 95%);
-        position: fixed;
-    }
-
-    .Search-InputContainer {
-        transform: translate(-72%, 0%);
-        width: 35%;
-    }
-
-    .Select-container {
-        transform: translate(-75%, 0%);
-    }
-
-    .Genre {
-        height: 28px;
-        transform: translate(-21%, 0);
-    }
-
-    .movie-container {
-        display: flex;
-        flex-wrap: wrap;
     }
 
     .movie {
@@ -83,60 +166,23 @@ body {
         height: auto;
     }
 
+    .movie-container {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
     .movie-details-container {
         height: 860px;
     }
 
-
-    .movie-details-container img{
+    .movie-details-container img {
         max-width: 150px;
         min-height: 225px;
         transform: translate(0px, 40%);
     }
 
-    .movie-details-container p{
+    .movie-details-container p {
        color: white;
        transform: translate(0px, 35%);
-    }
-
-    .like-button {
-        transform: translate(160px, -240px);
-    }
-
-    .like-button span {
-        padding: 5px;
-    }
-
- 
-    .comments-list {
-        max-height: 200px; 
-        overflow-y: auto; 
-        background: rgba(0, 0, 0, 0.8); 
-        padding: 10px; 
-        box-sizing: border-box; 
-        color: white; 
-    }
-
-
-    .comments-list div {
-        margin-bottom: 10px; 
-    }
-
-    .comment-container {
-        transform: translate(0, 10px);
-        display: flex; 
-        align-items: center; 
-        padding: 10px; 
-        box-sizing: border-box; 
-    }   
-
-    .comment-container input {
-        flex: 1; 
-        margin-right: 10px; 
-        padding: 5px; 
-    }
-
-    .comment-container button {
-        padding: 5px 10px; 
     }
 }
