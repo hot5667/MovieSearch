@@ -27,10 +27,7 @@
 
     <header>
         <div class="header-container">
-            <h4 class="header-MainText">DoSearch</h4>
-            <div class="Menu-containar">
-                <i class="fas fa-bars"></i>
-            </div>
+            <h4 class="header-MainText">MovieSearch</h4>
             <div class="Search-container">
                 <div class="Select-container">
                     <select id="Genre" class="Genre">
@@ -46,13 +43,13 @@
                     <input id="searchInput" type="text" placeholder="영화를 입력해주세요.">
                 </div>
                 <div class="Check-container">
-                    <button class="CheakBtn" id="checkBtn">확인</button>
+                    <button class="CheakBtn" id="searchButton">확인</button>
                 </div>
             </div>
         </div>
     </header>
 
-    <div class="main-container">
+    <div class="main-container" id="main-content">
         <div class="movie-container" id="movie-container">
         </div>
         <div class="movie-details-container" id="movie-details-container">
@@ -75,7 +72,8 @@
 
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-firestore-compat.js"></script>
+
     <script src="../src/search.js"></script>
-</body>
+</body>>
 
 </html>
