@@ -84,7 +84,7 @@ const fetchMovies = async () => {
             return;
         }
 
-        let url = `https://api.themoviedb.org/3/search/movie?api_key=${AniKey}&query=${encodeURIComponent(query)}&language=ko-KR&page=1`;
+        let url = `https://api.themoviedb.org/3/search/movie?api_key=${AniKey}&language=ko-KR&page=1`;
 
         if (genre !== "Def") {
             url += `&with_genres=${genreMap[genre]}`;
@@ -172,7 +172,7 @@ const displayMovies = (movies) => {
             movieContainer.innerHTML = '<p>검색 결과가 없습니다.</p>';
             return;
         }
-
+        
         const genreElement = document.getElementById('Genre');
         const selectedGenre = genreElement.value;
 
@@ -387,7 +387,7 @@ const saveLike = async (movieId) => {
             });
         }
         await movieDocRef.update({
-            likes: firebase.firestore.FieldValue.increment(1)
+            likes: firebase.firestore.FieldValue.increment(1)      
         });
         fetchMovieLikes(movieId, document.getElementById('like-count'));
     } catch (error) {
@@ -449,6 +449,6 @@ const fetchMovieComments = async (movieId, commentsList) => {
     }
 };
 
-document.addEventListener('DOMContentLoaded', fetchDefaultMovies);
+document.addEventListener('DOMContentLoaded', fetchDefaultMovies); //F5
 
-document.getElementById('searchButton').addEventListener('click', fetchMovies);
+document.getElementById('searchButton').addEventListener('click', fetchMovies); //Click
