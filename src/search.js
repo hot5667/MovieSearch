@@ -66,6 +66,9 @@ const fetchMovies = async () => {
             return;
         }
 
+        let $name = "dohyun"; //문자열, 소수, 실수, 정수 일때만 $변수
+        const MAX_SIZE = 10; //상수 일때만 변수명 대문자로
+
         const genre = genreElement.value;
         const query = queryElement.value.trim();
 
